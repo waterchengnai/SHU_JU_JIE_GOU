@@ -63,6 +63,9 @@
     <ClCompile Include="15哈夫曼树.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="x64\16森林,树与二叉树的转换.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="linked_list.h">

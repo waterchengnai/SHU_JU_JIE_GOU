@@ -37,7 +37,7 @@ typedef struct TREE {
 
 char tree[] = "ABDH##I##EJ###CF##G##";
 int idx = 0;
-threadtree* prev=NULL;//专门记录遍历节点的前驱节点用的
+threadtree* prev = NULL;//专门记录遍历节点的前驱节点用的
 
 //创建一个树,其实也是初始化
 threadtree* createtree()
@@ -98,33 +98,41 @@ void thread(threadtree* T)
 
 //线索化
 //这里的所有逻辑都是以head为头节点的链表展开的
-void inorderthread(threadtree**head,threadtree* T)
+void inorderthread(threadtree* head, threadtree* T)
 {
-	(*head) = (threadtree*)malloc(sizeof(threadtree));
-	(*head)->ltag = 0;
-	(*head)->rtag = 1;
+	head->ltag = 0;
+	head->rtag = 1;
 	//因为head是头节点，所以ltag=0
-	(*head)->right = *head;
+	head->right = head;
+	//这里让head的右指针指向自己是为了保证出现树为空的情况下依然构成循环链表
 	if (T == NULL)
 	{
-		(*head)->left = *head;
+		head->left = head;
 	}
 	else
 	{
-		(*head)->left = T;
-		prev = *head;
+		head->left = T;
+		prev = head;
 		//prev的作用就是记录当前节点的前驱
 		//现在当前节点是T，所以现在指向head
-		
-		//这里函数来解决其他节点线索化
+
+		//这里函数来解决中间节点线索化
 		thread(T);
 
-		//最后把尾节点线索化解决
+		//然后把尾节点线索化解决
 		if (prev != NULL) {
 			prev->rtag = 1;
-			prev->right = *head;
+			prev->right = head;
 		}
-		(*head)->right = prev;
+		head->right = prev;
+		//最后把遍历的第一个结点线索化
+		prev = head;
+		while (prev->ltag == 0)
+		{
+			prev = prev->left;
+		}
+		prev->left = head;
+		prev->ltag = 1;
 	}
 }
 
@@ -139,9 +147,9 @@ void inorder(threadtree* head)
 	//2.假如它没有左孩子，它有右线索，那么它应该打印，并往线索走
 	//3.假如它没有右线索，只有右孩子，那它应该打印自己，并往右孩子走
 	//4.假如它要走回head了，那就该结束遍历了
-	
+
 	//4.
-	while(curr!=head)
+	while (curr != head)
 	{
 		//1.
 		while (curr->ltag == 0)
@@ -149,7 +157,7 @@ void inorder(threadtree* head)
 			curr = curr->left;
 		}
 		//2.
-		while (curr->rtag == 1&&curr->right!=head)//别走太过走到头结点了
+		while (curr->rtag == 1 && curr->right != head)//别走太过走到头结点了
 		{
 			printf("%c ", curr->data);
 			curr = curr->right;
@@ -163,11 +171,12 @@ void inorder(threadtree* head)
 
 int main()
 {
-	threadtree* head;
+	threadtree* head = (threadtree*)malloc(sizeof(threadtree));
 	//创建树
 	threadtree* T = createtree();
 	//线索化
-	inorderthread(&head,T);
+	inorderthread(head, T);
 	//基于线索遍历
 	inorder(head);
+	free(head);
 }
