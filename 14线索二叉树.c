@@ -70,6 +70,7 @@ void thread(threadtree* T)
 		//1.补前驱,谁左孩子没有就补谁的前驱
 		//2.补后继,谁右孩子没有就补谁的后继
 
+
 		//1.补前驱
 		if (T->left == NULL)
 		{
