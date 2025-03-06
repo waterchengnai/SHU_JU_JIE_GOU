@@ -140,10 +140,11 @@
     <ClCompile Include="11循环队列.c" />
     <ClCompile Include="13树的代码实现.c" />
     <ClCompile Include="15哈夫曼树.c" />
+    <ClCompile Include="16森林,二叉树,树之间的转换.c" />
+    <ClCompile Include="17层序遍历.c" />
     <ClCompile Include="Dlink_list.c" />
     <ClCompile Include="linked_list.c" />
     <ClCompile Include="14线索二叉树.c" />
-    <ClCompile Include="x64\16森林,树与二叉树的转换.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dlink_list.h" />
